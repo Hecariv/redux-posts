@@ -17,6 +17,7 @@ import {
 import FaArrowUp from 'react-icons/lib/fa/arrow-up'
 import FaArrowDown from 'react-icons/lib/fa/arrow-down'
 import FaComment from 'react-icons/lib/fa/comment'
+import Moment from "react-moment";
 
 const Post = props => {
   return (
@@ -26,17 +27,17 @@ const Post = props => {
           <CardImg
             top
             width="100%"
-            src="https://images.pexels.com/photos/160107/pexels-photo-160107.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb"
+            src={props.img}
             alt="Card image cap"
           />
           <CardBody>
-            <CardTitle>Post Title | <FaArrowUp /> 1 <FaArrowDown /></CardTitle>
-            <CardSubtitle>Post Author</CardSubtitle>
+            <CardTitle> {props.title} | <FaArrowUp /> 1 <FaArrowDown /></CardTitle>
+            <CardSubtitle>{props.author}</CardSubtitle>
             <CardText>
-              Post Body
+              {props.body}
             </CardText>
               <hr />
-              a few seconds ago | <FaComment /> 2 Comments
+              <Moment fromNow>{new Date()}</Moment> | <FaComment /> 2 Comments
               <Form inline>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   <Input type="text" name="comment" id="comment-field" placeholder="Enter a comment here" />

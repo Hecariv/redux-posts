@@ -4,11 +4,17 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "moment": "^2.29.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react-dom": "^17.0.2",
     "react-icons": "^2.2.7",
+    "react-moment": "^1.1.1",
+    "react-redux": "^7.2.3",
     "react-scripts": "1.1.1",
-    "reactstrap": "^5.0.0-beta"
+    "reactstrap": "^5.0.0-beta",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
