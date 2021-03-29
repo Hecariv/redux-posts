@@ -20,6 +20,7 @@ import FaComment from 'react-icons/lib/fa/comment'
 import Moment from "react-moment";
 
 const Post = props => {
+
   return (
     <Row className="mt-3">
       <Col>
@@ -31,13 +32,19 @@ const Post = props => {
             alt="Card image cap"
           />
           <CardBody>
-            <CardTitle> {props.title} | <FaArrowUp /> 1 <FaArrowDown /></CardTitle>
+            <CardTitle> {props.title} | <FaArrowUp onClick={props.incrementVotes} /> {props.votes} <FaArrowDown /></CardTitle>
             <CardSubtitle>{props.author}</CardSubtitle>
             <CardText>
               {props.body}
             </CardText>
               <hr />
-              <Moment fromNow>{new Date()}</Moment> | <FaComment /> 2 Comments
+
+              <Moment fromNow>{props.date}</Moment>
+
+              {props.numberOfComments === 1 ?
+                  <p><FaComment /> {props.numberOfComments} Comment</p> :
+                  <p><FaComment /> {props.numberOfComments} Comments</p>
+              }
               <Form inline>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   <Input type="text" name="comment" id="comment-field" placeholder="Enter a comment here" />
@@ -45,8 +52,7 @@ const Post = props => {
                 <Button>Submit</Button>
               </Form>
               <ul className="mt-2">
-                <li>Comment One</li>
-                <li>Comment Two</li>
+                  {props.comments}
               </ul>
           </CardBody>
         </Card>

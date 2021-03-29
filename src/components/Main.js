@@ -13,15 +13,28 @@ class Main extends Component {
     }
 
     async componentDidMount() {
-
+        this.props.onFetchPosts();
+        this.props.onFetchComments();
     }
 
     formShown = () => {
         this.setState({showForm: !this.state.showForm})
     }
-
     render() {
-
+        let posts = this.props.posts.map((post) => (
+            <Post
+                key={post.id}
+                title={post.title}
+                body={post.content}
+                author={post.author}
+                img={post.img_url}
+                date={post.createdAt}
+                votes={post.votes}
+                numberOfComments={this.props.comments.filter(comment => comment.post_id === post.id).length}
+                comments={this.props.comments.filter(comment => comment.post_id === post.id).map(comment => <li key={comment.id}>{comment.content}</li>)}
+                incrementVotes={() => this.props.onIncrementVotes(post)}
+            />
+        ))
         return (
             <Container className="mt-4">
                 <Row>
@@ -35,17 +48,14 @@ class Main extends Component {
                 {this.state.showForm &&
                 <Row className="mt-4">
                     <Col sm={{size: 11, offset: 1}}>
-                        <AddPostForm
-                            postAdded={this.props.onPostNewPost}/>
+                        <AddPostForm/>
                     </Col>
                 </Row>
                 }
                 <Row>
                     <Col className="pr-0" sm={{size: 9, offset: 1}}>
                         {/* Below is the Post component for each post. It is up to you how you would like to iterate over them. */}
-                        {this.props.posts.map(post => (
-                            <Post title={post.title} body={post.body} author={post.author} img={post.image}/>
-                        ))}
+                        {posts}
                     </Col>
                 </Row>
             </Container>
@@ -55,21 +65,16 @@ class Main extends Component {
 
 const mapStateToProps = state => {
     return {
-        posts: state.postsRed.posts
+        posts: state.postsRed.posts,
+        comments: state.commentsRed.comments,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPostNewPost: (title, body, author, image) => dispatch({
-            type: "POST",
-            payload: {
-                title: title,
-                body: body,
-                author: author,
-                image: image,
-            }
-        }),
+        onFetchPosts: () => dispatch(actionCreators.fetchPosts()),
+        onFetchComments: () => dispatch(actionCreators.fetchComments()),
+        onIncrementVotes: (post) => dispatch(actionCreators.patchIncrementVotes(post))
     }
 }
 
