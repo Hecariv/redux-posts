@@ -11,12 +11,20 @@ const postsReducer = (state = initialState, action) => {
                 ...state,
                 posts: state.posts.concat(action.payload)
             }
-        case "INCREMENT_VOTES":
+        case actionTypes.INCREMENT_VOTES:
             return {
                 posts: state.posts.map(post => (post.id === action.id ? {
                     ...post,
                     votes: Number(post.votes + 1)
                     } : post))
+            }
+        case actionTypes.DECREASE_VOTES:
+
+            return {
+                posts: state.posts.map(post => (post.id === action.id ? {
+                    ...post,
+                    votes: Number(post.votes - 1)
+                } : post))
             }
 
         case actionTypes.FETCH_POSTS_SUCCESS:

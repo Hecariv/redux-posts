@@ -15,6 +15,27 @@ export const fetchComments = () => {
     }
 }
 
+export const addNewComment = (payload) => {
+    return async (dispatch) => {
+        const respone = await fetch("http://localhost:8082/api/comments", {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            }
+        });
+        dispatch(addNewCommentSuccess(payload))
+    }
+}
+
+export const addNewCommentSuccess = (comment) => {
+    return {
+        type: actionTypes.ADD_NEW_COMMENT,
+        payload: comment,
+    }
+}
+
 
 
 

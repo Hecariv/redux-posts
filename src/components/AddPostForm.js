@@ -33,6 +33,7 @@ class AddPostForm extends Component {
     postAdded = (e) => {
         e.preventDefault()
         this.props.onAddNewPost(this.state)
+        this.props.show()
 
     }
 

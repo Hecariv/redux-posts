@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {
   Card,
   CardImg,
@@ -19,46 +19,72 @@ import FaArrowDown from 'react-icons/lib/fa/arrow-down'
 import FaComment from 'react-icons/lib/fa/comment'
 import Moment from "react-moment";
 
-const Post = props => {
+class Post extends Component {
 
-  return (
-    <Row className="mt-3">
-      <Col>
-        <Card>
-          <CardImg
-            top
-            width="100%"
-            src={props.img}
-            alt="Card image cap"
-          />
-          <CardBody>
-            <CardTitle> {props.title} | <FaArrowUp onClick={props.incrementVotes} /> {props.votes} <FaArrowDown /></CardTitle>
-            <CardSubtitle>{props.author}</CardSubtitle>
-            <CardText>
-              {props.body}
-            </CardText>
-              <hr />
+  state = {
+    showComments: false,
+    content: "",
+    post_id: 0,
+  }
 
-              <Moment fromNow>{props.date}</Moment>
+  onChanged = (e, id) => {
+    e.preventDefault()
+    this.setState({...this.state, content: e.target.value, post_id: id})
+  }
 
-              {props.numberOfComments === 1 ?
-                  <p><FaComment /> {props.numberOfComments} Comment</p> :
-                  <p><FaComment /> {props.numberOfComments} Comments</p>
-              }
-              <Form inline>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  <Input type="text" name="comment" id="comment-field" placeholder="Enter a comment here" />
-                </FormGroup>
-                <Button>Submit</Button>
-              </Form>
-              <ul className="mt-2">
-                  {props.comments}
-              </ul>
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
-  )
+  onClicked = (e) => {
+    e.preventDefault()
+    this.props.addComment(this.state)
+  }
+
+  showComments = () => {
+    this.setState({...this.state, showComments: !this.state.showComments})
+  }
+
+
+  render() {
+
+    return (
+        <Row className="mt-3">
+          <Col>
+            <Card>
+              <CardImg
+                  top
+                  width="100%"
+                  src={this.props.img}
+                  alt="Card image cap"
+              />
+              <CardBody>
+                <CardTitle> {this.props.title} | <FaArrowUp onClick={this.props.incrementVotes} /> {this.props.votes} <FaArrowDown onClick={this.props.decreaseVotes} /></CardTitle>
+                <CardSubtitle>{this.props.author}</CardSubtitle>
+                <CardText>
+                  {this.props.body}
+                </CardText>
+                <hr />
+
+                <Moment fromNow>{this.props.date}</Moment>
+
+                {this.props.numberOfComments === 1 ?
+                    <p><FaComment onClick={this.showComments}/> {this.props.numberOfComments} Comment</p> :
+                    <p><FaComment onClick={this.showComments}/> {this.props.numberOfComments} Comments</p>
+                }
+                <Form inline>
+                  <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                    <Input onChange={(e) => this.onChanged(e, this.props.postId)} type="text" name="comment" id="comment-field" placeholder="Enter a comment here" />
+                  </FormGroup>
+                  <Button disabled={this.state.content.trim() === ""} onClick={this.onClicked}>Submit</Button>
+                </Form>
+                { this.state.showComments &&
+                  <ul className="mt-2">
+                    {this.props.comments}
+                  </ul>
+                }
+                
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+    )
+  }
 }
-
 export default Post

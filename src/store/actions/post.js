@@ -37,17 +37,33 @@ export const fetchPosts = () => {
     }
 }
 
-export const patchIncrementVotes = (post) => {
+export const updateIncrementVotes = (post) => {
     return async (dispatch) => {
-        const response = await fetch(`http://localhost:8082/api/posts/vote/increase/${post.id}`)
-        console.log(response)
+        const response = await fetch(`http://localhost:8082/api/posts/votes/increase/${post.id}`)
         dispatch(incrementVotes(post.id))
     }
 }
 
 export const incrementVotes = (id) => {
     return {
-        type: "INCREMENT_VOTES",
+        type: actionTypes.INCREMENT_VOTES,
+        id: id
+    }
+}
+
+export const updateDecreaseVotes = (post) => {
+    return async (dispatch) => {
+        if (post.votes <= 0) {
+            return
+        }
+        const response = await fetch(`http://localhost:8082/api/posts/votes/decrease/${post.id}`)
+        dispatch(decreaseVotes(post.id))
+    }
+}
+
+export const decreaseVotes = (id) => {
+    return {
+        type: actionTypes.DECREASE_VOTES,
         id: id
     }
 }

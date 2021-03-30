@@ -1,9 +1,11 @@
 export {
     addNewPost,
     fetchPosts,
-    patchIncrementVotes
+    updateIncrementVotes,
+    updateDecreaseVotes,
 } from "./post"
 
 export {
-    fetchComments
+    fetchComments,
+    addNewComment,
 } from "./comment"
