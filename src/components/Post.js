@@ -18,6 +18,8 @@ import FaArrowUp from 'react-icons/lib/fa/arrow-up'
 import FaArrowDown from 'react-icons/lib/fa/arrow-down'
 import FaComment from 'react-icons/lib/fa/comment'
 import Moment from "react-moment";
+import Comment from "./Comment";
+import CommentList from "./CommentList";
 
 class Post extends Component {
 
@@ -35,6 +37,7 @@ class Post extends Component {
   onClicked = (e) => {
     e.preventDefault()
     this.props.addComment(this.state)
+
   }
 
   showComments = () => {
@@ -65,8 +68,8 @@ class Post extends Component {
                 <Moment fromNow>{this.props.date}</Moment>
 
                 {this.props.numberOfComments === 1 ?
-                    <p><FaComment onClick={this.showComments}/> {this.props.numberOfComments} Comment</p> :
-                    <p><FaComment onClick={this.showComments}/> {this.props.numberOfComments} Comments</p>
+                    <p><FaComment onClick={this.showComments}/> {this.props.comments.filter(comment => comment.post_id === this.props.postId).length} Comment</p> :
+                    <p><FaComment onClick={this.showComments}/> {this.props.comments.filter(comment => comment.post_id === this.props.postId).length} Comments</p>
                 }
                 <Form inline>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -75,9 +78,10 @@ class Post extends Component {
                   <Button disabled={this.state.content.trim() === ""} onClick={this.onClicked}>Submit</Button>
                 </Form>
                 { this.state.showComments &&
-                  <ul className="mt-2">
-                    {this.props.comments}
-                  </ul>
+                  <CommentList
+                      comments={this.props.comments}
+                      postId={this.props.postId}
+                  />
                 }
                 
               </CardBody>

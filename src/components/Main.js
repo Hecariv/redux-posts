@@ -91,9 +91,7 @@ class Main extends Component {
                                 img={post.img_url}
                                 date={post.createdAt}
                                 votes={post.votes}
-                                numberOfComments={this.props.comments.filter(comment => comment.post_id === post.id).length}
-                                comments={this.props.comments.filter(comment => comment.post_id === post.id).map(comment =>
-                                    <Comment key={comment.id} content={comment.content}> </Comment>)}
+                                comments={this.props.comments}
                                 incrementVotes={() => this.props.onIncrementVotes(post)}
                                 decreaseVotes={() => this.props.OnDecreaseVotes(post)}
                                 postId={post.id}
@@ -120,9 +118,7 @@ const mapDispatchToProps = dispatch => {
         onFetchComments: () => dispatch(actionCreators.fetchComments()),
         onIncrementVotes: (post) => dispatch(actionCreators.updateIncrementVotes(post)),
         OnDecreaseVotes: (post) => dispatch(actionCreators.updateDecreaseVotes(post)),
-        onAddNewComment: (comment) => dispatch(actionCreators.addNewComment(comment))
-
-
+        onAddNewComment: (comment) => dispatch(actionCreators.addNewComment(comment)),
     }
 }
 
